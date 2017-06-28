@@ -339,7 +339,7 @@ public abstract class Script implements Runnable {
 	protected String dbPath(){
 		String path = this.getSource();
 		String dbpath = path.substring(1, path.lastIndexOf(StringCache.DOT_NSF)) + ".nsf";
-		return dbpath;	
+		return SystemUtils.IS_OS_LINUX ? "/" + dbpath : dbpath;	
 	}
 
 	/**
@@ -365,6 +365,7 @@ public abstract class Script implements Runnable {
 			script = new ScriptAggregator(db).build(script);
 
 		}catch(Exception n){
+			LOG.log(Level.SEVERE, "error resolving file using path " + this.dbPath());
 			LOG.log(Level.SEVERE, null, n);
 
 		}finally{
@@ -397,6 +398,7 @@ public abstract class Script implements Runnable {
 			script = new ScriptAggregator(db).build(script);
 
 		} catch (NotesException e) {
+			LOG.log(Level.SEVERE, "Error extracting script using dbpath " + this.dbPath());
 			LOG.log(Level.SEVERE, null, e);
 
 		}catch(Exception e){
