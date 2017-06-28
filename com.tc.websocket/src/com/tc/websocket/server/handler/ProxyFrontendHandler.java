@@ -18,6 +18,7 @@
 package com.tc.websocket.server.handler;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.security.Principal;
 import javax.security.cert.X509Certificate;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -168,7 +169,7 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
 
 					//only write the file if it hasn't been written yet.
 					if(sessionFile.exists() == false){
-						FileUtils.write(sessionFile, p.getName().replaceAll("\"",""));	
+						FileUtils.write(sessionFile, p.getName().replaceAll("\"",""), Charset.defaultCharset());	
 					}
 				}
 

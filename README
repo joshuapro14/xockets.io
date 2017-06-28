@@ -3,6 +3,28 @@ It leverages Netty.io websocket libraries to easily scale to a large number of u
 found in the webshell-xpages-ext-lib.  Below is a list of the latest features available in xockets.io:
 
 
+xockets.io as of 3.0.3 (FP8 Compatibility)
+
+New Features:
+	Upgraded netty to 4.1.12, upgraded apache commons jars where possible without breaking backward compatibility (some later releases do not run on java 6)
+
+-Fixes:
+	Split the update site into two for server and designer as there is a compatibility problem with FP8 and locally installing DAS plugin
+	Added class references instead of instances for static utility classes (nashorn does not support accessing static methods from instances)
+	
+-Breaking Changes:
+	For any variables that are put into scope by the plugin alter your code to access correctly from nashorn script engine (e.g. bundleUtils.load changes to bundleUtils.static.load)
+	Be sure to refactor any existing java scripts that attempt to access these classes in a non-static way
+	See the bundled chat application for examples
+	NOTE: reference to the "static" keyword will render as an error in DDE. You can safely ignore that error message
+	
+WARNING:
+	This build has not been tested on releases prior to FP8
+	
+	
+
+
+
 xockets.io as of 3.0.2
 -New Features include:
 	textOnly (e.g. msg.onlyText = true;) flag sends only the text portion of the message to the target recipient(s)

@@ -18,6 +18,7 @@
 package com.tc.websocket.scripts;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +32,7 @@ import javax.script.ScriptEngineManager;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.SystemUtils;
 
 import com.google.inject.Inject;
 import com.tc.di.guicer.IGuicer;
@@ -605,21 +607,40 @@ public abstract class Script implements Runnable {
 	 */
 	public Map<String,Object> getCommonVars(Session session){
 		Map<String,Object> vars = new HashMap<String,Object>();
-		vars.put(Const.FUNCTION, this.getFunction());
-		vars.put(Const.VAR_SESSION, session);
-		vars.put(Const.VAR_BUNDLE_UTILS, new BundleUtils());
-
-		vars.put(Const.VAR_TERM_SIGNAL, TermSignal.insta());
-		vars.put(Const.VAR_CACHE, ScriptCache.insta());
-		vars.put(Const.VAR_SCRIPT,new ScriptWrapper(this));
-		vars.put(Const.VAR_B64,Base64.insta());
-		vars.put(Const.VAR_STRUTILS,StrUtils.insta());
-		vars.put(Const.VAR_COLUTILS, ColUtils.insta());
-		vars.put(Const.VAR_STOPWATCH, new StopWatch());
-		vars.put(Const.VAR_FILEUTILS, new FileUtils());
-		vars.put(Const.VAR_IOUTILS,new IOUtils());
-		vars.put(Const.VAR_ATTACHUTILS, AttachUtils.insta());
-
+		
+		
+		if(SystemUtils.IS_JAVA_1_6){
+			//for rhino we can continue to use instances of classes usually used for static util methods.
+			vars.put(Const.FUNCTION, this.getFunction());
+			vars.put(Const.VAR_SESSION, session);
+			vars.put(Const.VAR_BUNDLE_UTILS, new BundleUtils());
+			vars.put(Const.VAR_TERM_SIGNAL, TermSignal.insta());
+			vars.put(Const.VAR_CACHE, ScriptCache.insta());
+			vars.put(Const.VAR_SCRIPT,new ScriptWrapper(this));
+			vars.put(Const.VAR_B64, Base64.class);
+			vars.put(Const.VAR_STRUTILS, StrUtils.insta());
+			vars.put(Const.VAR_COLUTILS, ColUtils.insta());
+			vars.put(Const.VAR_STOPWATCH, new StopWatch());
+			vars.put(Const.VAR_FILEUTILS, new FileUtils());
+			vars.put(Const.VAR_IOUTILS, new IOUtils());
+			vars.put(Const.VAR_ATTACHUTILS, AttachUtils.insta());
+		}else{
+			//for nashorn we require class reference then call with static (e.g. bundleUtils.static.load(...,...)
+			vars.put(Const.FUNCTION, this.getFunction());
+			vars.put(Const.VAR_SESSION, session);
+			vars.put(Const.VAR_BUNDLE_UTILS,BundleUtils.class);
+			vars.put(Const.VAR_TERM_SIGNAL, TermSignal.insta());
+			vars.put(Const.VAR_CACHE, ScriptCache.insta());
+			vars.put(Const.VAR_SCRIPT,new ScriptWrapper(this));
+			vars.put(Const.VAR_B64, Base64.class);
+			vars.put(Const.VAR_STRUTILS,StrUtils.class);
+			vars.put(Const.VAR_COLUTILS, ColUtils.class);
+			vars.put(Const.VAR_STOPWATCH, new StopWatch());
+			vars.put(Const.VAR_FILEUTILS, FileUtils.class);
+			vars.put(Const.VAR_IOUTILS,IOUtils.class);
+			vars.put(Const.VAR_ATTACHUTILS, AttachUtils.class);
+		}
+		
 
 		SimpleClient client = guicer.inject(new SimpleClient(this));
 		vars.put(Const.VAR_WEBSOCKET_CLIENT, client);
@@ -682,7 +703,7 @@ public abstract class Script implements Runnable {
 	public void toFile(){
 		try{
 			File file = File.createTempFile("tmp", ".txt");
-			FileUtils.write(file, this.getScript());
+			FileUtils.write(file, this.getScript(), Charset.defaultCharset());
 			LOG.log(Level.SEVERE,"aggregate file has been created for debug");
 			LOG.log(Level.SEVERE, file.getPath());
 		}catch(Exception e){
