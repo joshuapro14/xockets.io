@@ -114,12 +114,12 @@ public abstract class Script implements Runnable {
 	 */
 	public boolean shouldRun(){
 		boolean b = true;
-		
+
 		//scripts don't run for broadcast messages.
 		if(this.isIntervaled()){
 			long secs = DateUtils.getTimeDiffSec(lastRun , new Date());
 			b =  secs > interval;
-			
+
 		}
 		return b;
 	}
@@ -339,7 +339,7 @@ public abstract class Script implements Runnable {
 	protected String dbPath(){
 		String path = this.getSource();
 		String dbpath = path.substring(1, path.lastIndexOf(StringCache.DOT_NSF)) + ".nsf";
-		return SystemUtils.IS_OS_LINUX ? "/" + dbpath : dbpath;	
+		return dbpath;
 	}
 
 	/**
@@ -391,6 +391,7 @@ public abstract class Script implements Runnable {
 		Database db = null;
 		try {
 			db = session.getDatabase(StringCache.EMPTY, dbPath());
+
 			byte[] byteMe = DxlUtils.findSSJS(db, resource);
 			script = new String(byteMe, cfg.getCharSet()).trim();
 
@@ -609,8 +610,8 @@ public abstract class Script implements Runnable {
 	 */
 	public Map<String,Object> getCommonVars(Session session){
 		Map<String,Object> vars = new HashMap<String,Object>();
-		
-		
+
+
 		if(SystemUtils.IS_JAVA_1_6){
 			//for rhino we can continue to use instances of classes usually used for static util methods.
 			vars.put(Const.FUNCTION, this.getFunction());
@@ -642,7 +643,7 @@ public abstract class Script implements Runnable {
 			vars.put(Const.VAR_IOUTILS,IOUtils.class);
 			vars.put(Const.VAR_ATTACHUTILS, AttachUtils.class);
 		}
-		
+
 
 		SimpleClient client = guicer.inject(new SimpleClient(this));
 		vars.put(Const.VAR_WEBSOCKET_CLIENT, client);
