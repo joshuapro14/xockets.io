@@ -11,6 +11,7 @@ New Features:
 -Fixes:
 	Split the update site into two for server and designer as there is a compatibility problem with FP8 and locally installing DAS plugin
 	Added class references instead of instances for static utility classes (nashorn does not support accessing static methods from instances)
+	Removed hard coded path references in chat.nsf sample application.
 	
 -Breaking Changes:
 	For any variables that are put into scope by the plugin alter your code to access correctly from nashorn script engine (e.g. bundleUtils.load changes to bundleUtils.static.load)
