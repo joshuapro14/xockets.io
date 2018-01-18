@@ -17,7 +17,7 @@ public class NettyClientFactory {
 	private List<NettyTestClient> clients  = new ArrayList<NettyTestClient>();
 
 
-	public List<NettyTestClient> buildClients(int maxPayload) throws URISyntaxException, InterruptedException, SSLException{
+	public List<NettyTestClient> buildClients(int maxPayload, boolean anonymous) throws URISyntaxException, InterruptedException, SSLException{
 
 		if(!clients.isEmpty()) return clients;
 
@@ -36,11 +36,11 @@ public class NettyClientFactory {
 
 			String username = null;
 			if(i < 10){
-				username = "username00" + i;
+				username = anonymous ? "Anonymous" : "username00" + i;
 			}else if (i < 100){
-				username = "username0" + i;
+				username = anonymous ? "Anonymous": "username0" + i;
 			}else{
-				username ="username" + i;
+				username =anonymous ? "Anonymous" : "username" + i;
 			}
 
 			String url1 = cfg.getWebSocketUrl().replace("{uri}", "uri" + i) + "/" + username;

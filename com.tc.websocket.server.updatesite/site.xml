@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/com.tc.websocket.server.feature_3.0.3.201706281957.jar" id="com.tc.websocket.server.feature" version="3.0.3.201706281957">
+   <feature url="features/com.tc.websocket.server.feature_3.0.3.201801181206.jar" id="com.tc.websocket.server.feature" version="3.0.3.201801181206">
       <category name="xockets.io"/>
    </feature>
    <category-def name="xockets.io" label="xockets.io"/>

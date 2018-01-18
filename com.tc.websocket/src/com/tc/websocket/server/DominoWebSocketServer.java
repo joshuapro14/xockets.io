@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -144,7 +143,7 @@ public class DominoWebSocketServer implements IDominoWebSocketServer, Runnable{
 	private AtomicBoolean on = new AtomicBoolean(false);
 	
 	/** The socket count. */
-	private AtomicInteger socket_count = new AtomicInteger(0);
+	//private AtomicInteger socket_count = new AtomicInteger(0);
 
 
 
@@ -155,7 +154,11 @@ public class DominoWebSocketServer implements IDominoWebSocketServer, Runnable{
 	 */
 	@Override
 	public int getWebSocketCount(){
-		return socket_count.get();
+		int cntr = 0;
+		for(IUser user : this.getUsersOnThisServer()){
+			cntr = (cntr + user.count());
+		}
+		return cntr;
 	}
 	
 	
@@ -164,18 +167,12 @@ public class DominoWebSocketServer implements IDominoWebSocketServer, Runnable{
 	 * @see com.tc.websocket.server.IDominoWebSocketServer#getWebSocketAndObserverCount()
 	 */
 	public int getWebSocketAndObserverCount(){
-		return socket_count.get() + OBSERVERS.size();
+		return this.getWebSocketCount() + OBSERVERS.size();
 	}
 
 
 
-	/* (non-Javadoc)
-	 * @see com.tc.websocket.server.IDominoWebSocketServer#decrementCount()
-	 */
-	@Override
-	public int decrementCount(){
-		return socket_count.decrementAndGet();
-	}
+
 
 
 	/* (non-Javadoc)
@@ -256,7 +253,7 @@ public class DominoWebSocketServer implements IDominoWebSocketServer, Runnable{
 	 * @see com.tc.websocket.server.IDominoWebSocketServer#removeUser(com.tc.websocket.valueobjects.IUser)
 	 */
 	@Override
-	public void removeUser(IUser user){
+	public final void removeUser(IUser user){
 		if(VALID_USERS.containsKey(user.getUserId())){
 			this.removeUser(user.getUserId());
 
@@ -321,7 +318,7 @@ public class DominoWebSocketServer implements IDominoWebSocketServer, Runnable{
 
 		conn.setResourceDescriptor(req.uri());
 
-		this.socket_count.incrementAndGet();
+		//this.socket_count.incrementAndGet();
 
 		IUser user = this.resolveUser(conn);
 
@@ -452,8 +449,7 @@ public class DominoWebSocketServer implements IDominoWebSocketServer, Runnable{
 	 * @see com.tc.websocket.server.IDominoWebSocketServer#closeWithDelay(com.tc.websocket.server.ContextWrapper, int)
 	 */
 	@Override
-	public void closeWithDelay(ContextWrapper conn, int delay) {
-		socket_count.decrementAndGet();
+	public void closeWithDelay(final ContextWrapper conn, int delay) {
 		final IUser user = this.resolveUser(conn);
 		if(user!=null && ServerInfo.getInstance().isCurrentServer(user.getHost())){
 			user.setGoingOffline(true);
@@ -935,8 +931,6 @@ public class DominoWebSocketServer implements IDominoWebSocketServer, Runnable{
 						batchSend =new BatchSend();
 						batchSend.setMessage(msg);
 					}
-
-					//user.send(json);
 					sent = true;
 					cntr ++;
 				}//end if

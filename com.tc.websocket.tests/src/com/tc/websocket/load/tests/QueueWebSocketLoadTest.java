@@ -68,7 +68,7 @@ public class QueueWebSocketLoadTest{
 
 		try{
 			NettyClientFactory factory = new NettyClientFactory();
-			this.clients.addAll(factory.buildClients(TestConfig.getInstance().getMaxPayload()));
+			this.clients.addAll(factory.buildClients(TestConfig.getInstance().getMaxPayload(), false));
 		}catch(Exception e){
 			e.printStackTrace();
 		}

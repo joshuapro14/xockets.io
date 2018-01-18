@@ -190,7 +190,7 @@ public class Const {
 	public static final long PING_INTERVAL_MINUTES=1;
 	
 	/** The Constant USER_CLEANUP_INTERVAL. */
-	public static final int USER_CLEANUP_INTERVAL=30;
+	public static final int USER_CLEANUP_INTERVAL=120;
 	
 	
 	

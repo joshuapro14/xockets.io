@@ -249,12 +249,7 @@ public interface IDominoWebSocketServer extends Runnable {
 	 */
 	public int getWebSocketAndObserverCount();
 	
-	/**
-	 * Decrement count.
-	 *
-	 * @return the int
-	 */
-	public int decrementCount();
+
 	
 	/**
 	 * Gets the all scripts.

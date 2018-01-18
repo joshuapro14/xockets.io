@@ -55,9 +55,6 @@ public class ApplyStatus extends NotesOperation {
 	/** The user. */
 	private IUser user;
 
-	/** The remove user. */
-	private boolean removeUser;
-
 
 	/**
 	 * Instantiates a new apply status.
@@ -67,19 +64,6 @@ public class ApplyStatus extends NotesOperation {
 	public ApplyStatus(IUser user){
 		this.user = user;
 	}
-
-
-	/**
-	 * Sets the remove user.
-	 *
-	 * @param removeUser the remove user
-	 * @return the apply status
-	 */
-	public ApplyStatus setRemoveUser(boolean removeUser){
-		this.removeUser=removeUser;
-		return this;
-	}
-
 
 
 	/* (non-Javadoc)
@@ -163,7 +147,6 @@ public class ApplyStatus extends NotesOperation {
 	@Stopwatch
 	private void offline(){
 		Session session = null;
-
 		try {
 			if(user!=null && !StrUtils.isEmpty(this.getSessionId())){
 
@@ -187,10 +170,6 @@ public class ApplyStatus extends NotesOperation {
 				doc.save();
 
 				user.setDocId(doc.getUniversalID());
-
-				if(removeUser){
-					server.removeUser(user);
-				}
 
 				//make sure if user transitioned from anonymous that doc is cleaned up
 				this.deleteAnonymousDoc(session);

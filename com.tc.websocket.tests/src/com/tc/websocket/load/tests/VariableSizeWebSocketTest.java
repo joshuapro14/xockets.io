@@ -85,7 +85,7 @@ public class VariableSizeWebSocketTest implements Runnable{
 	public VariableSizeWebSocketTest(){
 		try{
 			NettyClientFactory factory = new NettyClientFactory();
-			clients.addAll(factory.buildClients(TestConfig.getInstance().getMaxPayload()));
+			clients.addAll(factory.buildClients(TestConfig.getInstance().getMaxPayload(), false));
 			this.buildSocketMessages();
 			
 			System.out.println("Scheduling test...");

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: xockets.io
 Bundle-SymbolicName: com.tc.websocket;singleton:=true
-Bundle-Version: 3.0.3.FP8-qualifier
+Bundle-Version: 3.0.4.leak-fix-qualifier
 Bundle-Vendor: TekCounsel LLC
 Require-Bundle: com.ibm.notes.java.api;bundle-version="1.0.0",
  org.eclipse.core.runtime;bundle-version="3.4.0",
@@ -27,7 +27,6 @@ Require-Bundle: com.ibm.notes.java.api;bundle-version="1.0.0",
  com.ibm.domino.services,
  io.netty;bundle-version="4.1.0"
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: com.tc.websocket,
  com.tc.websocket.factories,
  com.tc.websocket.filter,
@@ -43,3 +42,4 @@ Export-Package: com.tc.websocket,
  com.tc.websocket.valueobjects.structures
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: com.tc.websocket.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -2,10 +2,10 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: io.netty
 Bundle-SymbolicName: io.netty
-Bundle-Version: 4.1.5
+Bundle-Version: 4.1.9
 Bundle-ClassPath: jzlib-1.1.2.jar,
  netty-tcnative-openssl-static-1.1.33.Fork15-SNAPSHOT-windows-x86_64}.jar,
- netty-all-4.1.12.Final.jar
+ netty-all-4.1.19.Final.jar
 Bundle-Vendor: netty
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: com.jcraft.jzlib,
@@ -15,6 +15,7 @@ Export-Package: com.jcraft.jzlib,
  io.netty.channel.embedded,
  io.netty.channel.epoll,
  io.netty.channel.group,
+ io.netty.channel.internal,
  io.netty.channel.kqueue,
  io.netty.channel.local,
  io.netty.channel.nio,

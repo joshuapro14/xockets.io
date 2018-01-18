@@ -89,7 +89,6 @@ public class RestWebSocketBean extends AbstractWebSocketBean{
 		if(user!=null){
 			user.setGoingOffline(true);
 			ApplyStatus status = new ApplyStatus(user);
-			status.setRemoveUser(true);
 			TaskRunner.getInstance().add(status);
 		}
 	}

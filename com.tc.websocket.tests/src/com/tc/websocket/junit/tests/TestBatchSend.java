@@ -36,7 +36,7 @@ public class TestBatchSend {
 		cfg.overrideProperty("print.data", "true");//we want to print data.
 		
 		
-		this.clients.addAll(factory.buildClients(TestConfig.getInstance().getMaxPayload()));
+		this.clients.addAll(factory.buildClients(TestConfig.getInstance().getMaxPayload(), false));
 		
 		client.setCredentials(cfg.getHttpUsername(), cfg.getHttpPassword());
 	}

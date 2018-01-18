@@ -364,9 +364,12 @@ public abstract class Script implements Runnable {
 			//resolve dependencies.
 			script = new ScriptAggregator(db).build(script);
 
-		}catch(Exception n){
-			LOG.log(Level.SEVERE, "error resolving file using path " + this.dbPath());
+		}catch(NotesException n){
+			LOG.log(Level.SEVERE, "notes error " + n.text + " " + this.dbPath());
 			LOG.log(Level.SEVERE, null, n);
+		}catch(Exception e){
+			LOG.log(Level.SEVERE, "error resolving file using path " + this.dbPath());
+			LOG.log(Level.SEVERE, null, e);
 
 		}finally{
 			this.closeSession(session);
@@ -399,7 +402,7 @@ public abstract class Script implements Runnable {
 			script = new ScriptAggregator(db).build(script);
 
 		} catch (NotesException e) {
-			LOG.log(Level.SEVERE, "Error extracting script using dbpath " + this.dbPath());
+			LOG.log(Level.SEVERE, "Error extracting script using dbpath " + e.text + " " + this.dbPath());
 			LOG.log(Level.SEVERE, null, e);
 
 		}catch(Exception e){

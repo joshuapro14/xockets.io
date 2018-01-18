@@ -41,11 +41,10 @@ public class UserCleanup implements Runnable {
 			user.clear();
 			
 			//now check to see if the user needs to get dropped.
-			if(!user.isOpen() && !user.isGoingOffline() && user.isOnServer()){
-				user.setGoingOffline(true);
-				batch.addRunner(guicer.inject(new ApplyStatus(user)));
-				server.decrementCount();
+			if(user.count() == 0){
+				server.removeUser(user);
 			}
+			
 		}
 		//now execute all the status updates together.
 		TaskRunner.getInstance().add(batch);
