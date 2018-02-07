@@ -3,14 +3,18 @@
  */
 package com.tc.websocket;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.security.KeyStore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.TrustManagerFactory;
+
+import org.apache.commons.io.IOUtils;
 
 import io.netty.handler.ssl.OpenSsl;
 import io.netty.handler.ssl.SslContext;
@@ -58,6 +62,9 @@ public class SSLFactory implements ISSLFactory {
 		return sslCtx;
 	}
 
+	
+
+	
 	/**
 	 * Creates a new SSL object.
 	 *
@@ -69,16 +76,22 @@ public class SSLFactory implements ISSLFactory {
 		SslContext ctx = null;
 		try{
 			KeyStore ks = KeyStore.getInstance( cfg.getKeyStoreType() );
+			
 			File kf = new File( cfg.getKeyStore() );
-			ks.load( new FileInputStream( kf ), cfg.getKeyStorePassword().toCharArray() );
+			
+			InputStream in = new BufferedInputStream(new FileInputStream(kf));
+			
+			ks.load( in, cfg.getKeyStorePassword().toCharArray() );
+			
+			IOUtils.closeQuietly(in);
 
 			KeyManagerFactory kmf = KeyManagerFactory.getInstance( KeyManagerFactory.getDefaultAlgorithm() );
-			kmf.init( ks, cfg.getKeyPassword().toCharArray() );
 
+			kmf.init( ks, cfg.getKeyPassword().toCharArray() );
 			
 			TrustManagerFactory tmf = TrustManagerFactory.getInstance( KeyManagerFactory.getDefaultAlgorithm() );
+			
 			tmf.init( ks );
-
 
 			if(server){
 				ctx = SslContextBuilder
