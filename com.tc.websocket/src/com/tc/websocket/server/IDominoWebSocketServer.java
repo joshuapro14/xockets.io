@@ -77,6 +77,9 @@ public interface IDominoWebSocketServer extends Runnable {
 	 */
 	public abstract Collection<IUser> getUsers();
 	
+	
+	public abstract Collection<IUser> getAllUsers();
+	
 	/**
 	 * Gets the users on this server.
 	 *

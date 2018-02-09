@@ -182,6 +182,10 @@ public class TaskRunner implements Runnable {
 			scheduler.scheduleAtFixedRate(cleanup, 0, Const.USER_CLEANUP_INTERVAL, TimeUnit.SECONDS);
 			
 
+			UriCleanup uriCleanup= guicer.createObject(UriCleanup.class);
+			scheduler.scheduleAtFixedRate(uriCleanup, 0, Const.URI_CLEANUP_INTERVAL, TimeUnit.SECONDS);
+			
+
 
 			//separate thread to process broadcast messages.
 			if(ServerInfo.getInstance().isCurrentServer(Config.getInstance().getBroadcastServer())){

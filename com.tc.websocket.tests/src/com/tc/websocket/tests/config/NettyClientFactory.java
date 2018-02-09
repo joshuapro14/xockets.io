@@ -14,33 +14,59 @@ import com.tc.websocket.tests.client.NettyTestClient;
 
 public class NettyClientFactory {
 
-	private List<NettyTestClient> clients  = new ArrayList<NettyTestClient>();
+	private List<NettyTestClient> clients = new ArrayList<NettyTestClient>();
 
+	public List<NettyTestClient> buildClients(int maxPayload, boolean anonymous)
+			throws URISyntaxException, InterruptedException, SSLException {
+		
+		
 
-	public List<NettyTestClient> buildClients(int maxPayload, boolean anonymous) throws URISyntaxException, InterruptedException, SSLException{
+		if (!this.clients.isEmpty()) {
+			return this.clients;
+		}
+		this.clients.addAll(this.createNew(maxPayload, anonymous));
 
-		if(!clients.isEmpty()) return clients;
+		return this.clients;
 
-		System.out.println("building websocket clients...");
+	}
+
+	public List<NettyTestClient> buildNewClients(int maxPayload, boolean anonymous)
+			throws URISyntaxException, InterruptedException, SSLException {
+		
+		
+		return this.createNew(maxPayload, anonymous);
+	}
+
+	private List<NettyTestClient> createNew(int maxPayload, boolean anonymous)
+			throws URISyntaxException, InterruptedException, SSLException {
 
 		TestConfig cfg = TestConfig.getInstance();
 
+		List<NettyTestClient> myclients = new ArrayList<NettyTestClient>();
+
+		if (cfg.getWebSocketUrl().contains("wss://")) {
+			System.out.println("building websocket clients over TLS/SSL...");
+		} else {
+			System.out.println("building websocket clients...");
+		}
+
 		SslContext sslContext = null;
-		if(cfg.isEncrypted()){
+		if (cfg.isEncrypted()) {
 			sslContext = new SSLFactory().createClientSslCtx(cfg);
+
 		}
 
 		String url = null;
 
-		for(int i=0;i< cfg.getNumberOfClients() ;i++){
+		for (int i = 0; i < cfg.getNumberOfClients(); i++) {
 
 			String username = null;
-			if(i < 10){
+			if (i < 10) {
 				username = anonymous ? "Anonymous" : "username00" + i;
-			}else if (i < 100){
-				username = anonymous ? "Anonymous": "username0" + i;
-			}else{
-				username =anonymous ? "Anonymous" : "username" + i;
+			} else if (i < 100) {
+				username = anonymous ? "Anonymous" : "username0" + i;
+			} else {
+				username = anonymous ? "Anonymous" : "username" + i;
 			}
 
 			String url1 = cfg.getWebSocketUrl().replace("{uri}", "uri" + i) + "/" + username;
@@ -48,16 +74,17 @@ public class NettyClientFactory {
 
 			NettyTestClient c = null;
 
-			if ( (i % 2) == 0){
+			if ((i % 2) == 0) {
 				url = url1;
-			}else{
+			} else {
 				url = url2;
 			}
 
-			c = new NettyTestClient( new URI(url));
+			c = new NettyTestClient(new URI(url));
 
-			//set the ssl engine if needed.
-			if(sslContext!=null) {
+			// set the ssl engine if needed.
+
+			if (sslContext != null) {
 				c.setSSLContext(sslContext);
 			}
 
@@ -66,37 +93,27 @@ public class NettyClientFactory {
 			c.setUuid(username);
 			c.setCompress(cfg.isCompressionEnabled());
 			c.connect();
-			clients.add(c);
+			myclients.add(c);
 
-			Thread.sleep(cfg.getConnectionDelay());
+			//Thread.sleep(cfg.getConnectionDelay());
 		}
 
 
-		//clean out the closed connections.
-		boolean hasClosed= false;
-		List<NettyTestClient> open = new ArrayList<NettyTestClient>();
-		for(NettyTestClient client : clients){
-			if(client.isOpen()){
-				open.add(client);
-			}else{
-				hasClosed=true;
-			}
-		}
-
-		if(hasClosed){
-			clients.clear();
-			clients.addAll(open);
-		}
-
-
-		return clients;
+		return myclients;
 	}
 
 
-	public void closeClients() throws InterruptedException{
-		for(NettyTestClient client : clients){
+	public void closeClients(List<NettyTestClient> clients, int sleep) throws InterruptedException {
+		for (NettyTestClient client : clients) {
 			client.disconnect();
-			Thread.sleep(500);
+			//Thread.sleep(sleep);
+		}
+	}
+
+	public void closeClients() throws InterruptedException {
+		for (NettyTestClient client : clients) {
+			client.disconnect();
+			//Thread.sleep(500);
 		}
 	}
 

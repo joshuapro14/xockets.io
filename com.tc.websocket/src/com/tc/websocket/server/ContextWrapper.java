@@ -661,7 +661,7 @@ public class ContextWrapper implements ChannelHandlerContext {
 	 * Process queue.
 	 */
 	@Stopwatch(time=50)
-	public void processQueue() {
+	public synchronized void processQueue() {
 		boolean written = false;
 		while(!this.messages.isEmpty() && ctx.channel().isWritable()){
 			String msg = messages.poll();

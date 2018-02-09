@@ -1,8 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: xockets.io
 Bundle-SymbolicName: com.tc.websocket;singleton:=true
-Bundle-Version: 3.0.5.ssl-leak-fix-qualifier
+Bundle-Version: 3.0.6.qualifier
 Bundle-Vendor: TekCounsel LLC
 Require-Bundle: com.ibm.notes.java.api;bundle-version="1.0.0",
  org.eclipse.core.runtime;bundle-version="3.4.0",
@@ -43,3 +42,5 @@ Export-Package: com.tc.websocket,
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: com.tc.websocket.Activator
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Name: xockets.io
+Import-Package: org.slf4j.impl

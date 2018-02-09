@@ -88,7 +88,7 @@ public abstract class AbstractClient implements IWebSocketClient{
 						sslEngine = sslContext.newEngine(ch.alloc(),uri.getHost(),uri.getPort());
 					}
 					
-					sslEngine.setEnabledProtocols(Const.TLS_PROTOCOLS);
+					//sslEngine.setEnabledProtocols(Const.TLS_PROTOCOLS);
 					sslEngine.setUseClientMode(true);
 					p.addLast(new SslHandler(sslEngine));
 				}

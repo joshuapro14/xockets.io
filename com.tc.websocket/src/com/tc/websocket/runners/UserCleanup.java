@@ -35,16 +35,17 @@ public class UserCleanup implements Runnable {
 	@Override
 	public void run() {	
 		Batch batch = new Batch();
-		for(IUser user : server.getUsers()){
+		for(IUser user : server.getAllUsers()){
 			
 			//clear out any old connections
 			user.clear();
 			
 			//now check to see if the user needs to get dropped.
-			if(user.count() == 0){
-				server.removeUser(user);
+			if(user.count()==0){
+				this.server.removeUser(user);
+				user.setGoingOffline(true);
+				batch.addRunner(guicer.inject(new ApplyStatus(user).setRemoveUser(true)));
 			}
-			
 		}
 		//now execute all the status updates together.
 		TaskRunner.getInstance().add(batch);

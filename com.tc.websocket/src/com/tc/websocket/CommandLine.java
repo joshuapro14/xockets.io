@@ -33,6 +33,9 @@ import com.tc.di.guicer.IGuicer;
 import com.tc.utils.ColUtils;
 import com.tc.utils.StrUtils;
 import com.tc.websocket.runners.PurgeDocuments;
+import com.tc.websocket.runners.TaskRunner;
+import com.tc.websocket.runners.UriCleanup;
+import com.tc.websocket.runners.UserCleanup;
 import com.tc.websocket.scripts.Script;
 import com.tc.websocket.server.IDominoWebSocketServer;
 import com.tc.websocket.valueobjects.IUser;
@@ -92,6 +95,11 @@ public class CommandLine implements CommandProvider {
 				Script.printEngines();
 			}
 			
+			else if("user-cleanup".equalsIgnoreCase(command)){
+				TaskRunner.getInstance().add(new UserCleanup());
+				
+			}
+			
 			else if("show-all-users".equalsIgnoreCase(command)){
 				this.printUsers(server.getUsers(), out);
 
@@ -100,6 +108,13 @@ public class CommandLine implements CommandProvider {
 				
 			}else if("show-listeners".equalsIgnoreCase(command)){
 				this.showListeners();
+			
+			}else if("show-valid-users".equalsIgnoreCase(command)){
+				this.printUsersAndConnections(server.getAllUsers(), out);
+			}
+			
+			else if("cleanup-uri-map".equalsIgnoreCase(command)){
+				TaskRunner.getInstance().add(new UriCleanup());
 			}
 			
 			else if ("gc".equalsIgnoreCase(command)){
@@ -357,6 +372,20 @@ public class CommandLine implements CommandProvider {
 
 		for(IUser user : list){
 			out.println("userId=" + user.getUserId() + ", server=" + user.getHost() + " , count=" + user.count() + ", connected=" + user.isOpen() + ", isGoingOffline=" + user.isGoingOffline());
+		}
+
+	}
+	
+	
+	private void printUsersAndConnections(Collection<IUser> col, CommandInterpreter out){
+
+		List<IUser> list = new ArrayList<IUser>();
+		list.addAll(col);
+		ColUtils.sort(list, "getUserId", false);
+
+		for(IUser user : list){
+			
+			out.println("userId=" + user.getUserId() + ", server=" + user.getHost() + " , count=" + user.count() + ", connected=" + user.isOpen() + ", connections=" + user.getConnections().size() + ", isGoingOffline=" + user.isGoingOffline());
 		}
 
 	}

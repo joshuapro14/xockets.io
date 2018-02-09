@@ -105,10 +105,10 @@ public abstract class NotesOperation implements Runnable {
 			DocumentCollection col = db.search(search);
 			if(col!=null && col.getCount() > 0){
 				col.removeAll(true);
-				col.recycle();
 			}
 			
 			//cleanup
+			col.recycle();
 			db.recycle();
 			
 		} catch (NotesException e) {
