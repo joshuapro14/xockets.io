@@ -47,6 +47,7 @@ public class JsonClient implements IJSONClient {
 
 	private boolean useCreds;
 
+
 	@Override
 	public void setCredentials(String username, String password) {
 		this.username = username;
@@ -61,13 +62,14 @@ public class JsonClient implements IJSONClient {
 			byte[] byteMe = Base64.decode(authorization);
 			authorization = new String(byteMe);
 			String[] credentials = authorization.split(":");
-			this.username = credentials[0];
-			this.password = credentials[1];
-			this.useCreds = true;
+			this.username=credentials[0];
+			this.password=credentials[1];
+			this.useCreds=true;
 		} catch (Exception ex) {
-			logger.log(Level.SEVERE, null, ex);
+			logger.log(Level.SEVERE,null,ex);
 		}
 	}
+
 
 	@Override
 	public void applyCredentials(HttpURLConnection conn) {
@@ -92,7 +94,7 @@ public class JsonClient implements IJSONClient {
 			}
 
 			if (conn.getResponseCode() != 200) {
-				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+				throw new RuntimeException("Failed : HTTP error code : "  + conn.getResponseCode());
 			}
 
 			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
@@ -104,10 +106,11 @@ public class JsonClient implements IJSONClient {
 			}
 
 		} catch (Exception e) {
-			logger.log(Level.SEVERE, null, e);
-		} finally {
+			logger.log(Level.SEVERE,null,e);
+		}finally{
 			conn.disconnect();
 		}
+
 
 		return builder.toString();
 	}
@@ -115,7 +118,7 @@ public class JsonClient implements IJSONClient {
 	@Override
 	public String post(String json, String strurl) {
 		StringBuilder builder = new StringBuilder();
-		HttpURLConnection conn = null;
+		HttpURLConnection conn=null;
 		OutputStream out = null;
 		try {
 			URL url = new URL(strurl);
@@ -130,30 +133,31 @@ public class JsonClient implements IJSONClient {
 
 			String input = json;
 
-			if (input != null) {
+			if(input!=null){
 				OutputStream os = conn.getOutputStream();
 				os.write(input.getBytes());
 				os.flush();
-				IOUtils.closeQuietly(os);
 			}
 
 			if (conn.getResponseCode() != 200) {
 				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
 			}
 
-			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					(conn.getInputStream())));
 
 			String output;
-			logger.log(Level.INFO, "Output from Server .... \n");
+			logger.log(Level.INFO,"Output from Server .... \n");
 			while ((output = br.readLine()) != null) {
 				builder.append(output);
 			}
 
-		} catch (IOException e) {
-			logger.log(Level.SEVERE, null, "url that failed is " + strurl);
-			logger.log(Level.SEVERE, null, e);
 
-		} finally {
+		} catch (IOException e) {
+			logger.log(Level.SEVERE,null,"url that failed is " + strurl);
+			logger.log(Level.SEVERE,null,e);
+
+		}finally{
 			IOUtils.closeQuietly(out);
 			conn.disconnect();
 		}
@@ -178,33 +182,33 @@ public class JsonClient implements IJSONClient {
 				this.applyCredentials(conn);
 			}
 
+
 			byte[] byteMe = CompressionUtils.compress(json.getBytes());
 
 			conn.setRequestProperty("Content-Length", String.valueOf(byteMe.length));
+
 
 			OutputStream os = conn.getOutputStream();
 			os.write(byteMe);
 			os.flush();
 
-			try {
-				if (conn.getResponseCode() != 200) {
-					throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
-				}
-			} finally {
-				IOUtils.closeQuietly(os);
+			if (conn.getResponseCode() != 200) {
+				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
 			}
 
-			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					(conn.getInputStream())));
 
 			String output;
-			logger.log(Level.INFO, "Output from Server .... \n");
+			logger.log(Level.INFO,"Output from Server .... \n");
 			while ((output = br.readLine()) != null) {
 				builder.append(output);
 			}
 
+
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, null, e);
-		} finally {
+			logger.log(Level.SEVERE,null,e);
+		}finally{
 			conn.disconnect();
 		}
 
@@ -228,6 +232,7 @@ public class JsonClient implements IJSONClient {
 				this.applyCredentials(conn);
 			}
 
+
 			String input = json;
 
 			os = conn.getOutputStream();
@@ -235,22 +240,23 @@ public class JsonClient implements IJSONClient {
 			os.flush();
 
 			if (conn.getResponseCode() != 200) {
-				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+				throw new RuntimeException("Failed : HTTP error code : "
+						+ conn.getResponseCode());
 			}
 
 			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 
 			String output;
-			logger.log(Level.INFO, "Output from Server .... \n");
+			logger.log(Level.INFO,"Output from Server .... \n");
 			while ((output = br.readLine()) != null) {
 				builder.append(output);
 			}
 
 			conn.disconnect();
 		} catch (Exception e) {
-			logger.log(Level.SEVERE, null, e);
+			logger.log(Level.SEVERE,null,e);
 
-		} finally {
+		}finally{
 			conn.disconnect();
 			IOUtils.closeQuietly(os);
 		}
@@ -282,22 +288,24 @@ public class JsonClient implements IJSONClient {
 			os.flush();
 
 			if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
-				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+				throw new RuntimeException("Failed : HTTP error code : "
+						+ conn.getResponseCode());
 			}
 
-			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					(conn.getInputStream())));
 
 			String output;
-			logger.log(Level.INFO, "Output from Server .... \n");
+			logger.log(Level.INFO,"Output from Server .... \n");
 			while ((output = br.readLine()) != null) {
 				builder.append(output);
 			}
 
 			conn.disconnect();
 		} catch (Exception e) {
-			logger.log(Level.SEVERE, null, e);
+			logger.log(Level.SEVERE,null, e);
 
-		} finally {
+		}finally{
 			conn.disconnect();
 			IOUtils.closeQuietly(os);
 		}

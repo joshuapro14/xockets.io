@@ -41,6 +41,9 @@ import com.tc.websocket.factories.UserFactory;
 import com.tc.websocket.filter.IWebsocketFilter;
 import com.tc.websocket.jsf.IWebSocketBean;
 import com.tc.websocket.jsf.WebSocketBean;
+import com.tc.websocket.rest.IRestWebSocket;
+import com.tc.websocket.rest.RestWebSocket;
+import com.tc.websocket.rest.RestWebSocketBean;
 import com.tc.websocket.runners.TaskRunner;
 import com.tc.websocket.server.DominoWebSocketServer;
 import com.tc.websocket.server.IDominoWebSocketServer;
@@ -86,6 +89,12 @@ public class DominoWebSocketModule extends AbstractModule {
 
 			//bind the xpage/jsf bean
 			bind(IWebSocketBean.class).annotatedWith(Names.named(Const.GUICE_JSF_WEBSOCKET)).to(WebSocketBean.class).in(Singleton.class);
+
+			//bind the rest bean (not singleton... per request);
+			bind(IWebSocketBean.class).annotatedWith(Names.named(Const.GUICE_REST_WEBSOCKET)).to(RestWebSocketBean.class);
+
+			//setup the restful bindings
+			bind(IRestWebSocket.class).to(RestWebSocket.class);
 
 			bind(ISSLFactory.class).to(SSLFactory.class).in(Singleton.class);
 
@@ -245,11 +254,6 @@ public class DominoWebSocketModule extends AbstractModule {
 		}catch(Exception e){
 			LOG.log(Level.SEVERE,null, e);
 		}
-	}
-	
-	
-	public static IDominoWebSocketServer serverInstance(){
-		return server;
 	}
 
 }

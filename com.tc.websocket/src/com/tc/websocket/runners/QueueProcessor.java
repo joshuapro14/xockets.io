@@ -54,7 +54,6 @@ public class QueueProcessor extends AbstractQueueProcessor implements Runnable {
 		if(server.getWebSocketAndObserverCount() == 0)return;
 
 		Session session = this.openSession();
-		int cntr=0;
 		try {
 			Database db = session.getDatabase(StringCache.EMPTY, Const.WEBSOCKET_PATH);
 			View view = db.getView(Const.VIEW_MSG_QUEUE);
@@ -72,16 +71,9 @@ public class QueueProcessor extends AbstractQueueProcessor implements Runnable {
 					temp = view.getNextDocument(doc);
 					doc.recycle();
 					doc = temp;	
-					cntr++;
-					
-					if(cntr >=Const.MAX_DOCS_TO_PROCESS){
-						break;
-					}
 				}
 
 				view.setAutoUpdate(true);
-				view.recycle();
-				db.recycle();
 			}
 		} catch (NotesException e) {
 			LOG.log(Level.SEVERE,null,e);

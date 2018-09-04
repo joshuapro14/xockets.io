@@ -85,7 +85,7 @@ public class VariableSizeWebSocketTest implements Runnable{
 	public VariableSizeWebSocketTest(){
 		try{
 			NettyClientFactory factory = new NettyClientFactory();
-			clients.addAll(factory.buildClients(TestConfig.getInstance().getMaxPayload(), false));
+			clients.addAll(factory.buildClients(TestConfig.getInstance().getMaxPayload()));
 			this.buildSocketMessages();
 			
 			System.out.println("Scheduling test...");
@@ -114,7 +114,7 @@ public class VariableSizeWebSocketTest implements Runnable{
 		return clients;
 	}
 
-	@Override
+	
 	public void run() {
 		long elapsedTime = DateUtils.getTimeDiffMin(START, new Date());
 		if(elapsedTime >= RUN_TIME_MIN){

@@ -29,7 +29,7 @@ public class ProfileInterceptor implements MethodInterceptor {
 	public static Map<String,ProfilerType> map = new ConcurrentHashMap<String,ProfilerType>();
 	private static final Object lock = new Object();
 
-	@Override
+	
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		Object value = null;
 		if(Profiler.isEnabled()){

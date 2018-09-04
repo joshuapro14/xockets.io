@@ -1,7 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
+Bundle-Name: xockets.io
 Bundle-SymbolicName: com.tc.websocket;singleton:=true
-Bundle-Version: 3.0.6.qualifier
+Bundle-Version: 3.0.2.qualifier
 Bundle-Vendor: TekCounsel LLC
 Require-Bundle: com.ibm.notes.java.api;bundle-version="1.0.0",
  org.eclipse.core.runtime;bundle-version="3.4.0",
@@ -23,11 +24,15 @@ Require-Bundle: com.ibm.notes.java.api;bundle-version="1.0.0",
  com.tc.xpage.profiler;bundle-version="1.0.0",
  com.jackson.library;bundle-version="1.0.0",
  org.apache.commons;bundle-version="2.1.0",
+ com.ibm.wink,
  com.ibm.domino.services,
- io.netty;bundle-version="4.1.0"
-Bundle-ClassPath: .
+ io.netty;bundle-version="4.1.0",
+ com.ibm.domino.das
+Bundle-ClassPath: .,
+ lib/bsh-2.0b6.jar,
+ lib/jython-standalone-2.7.0.jar
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: com.tc.websocket,
- com.tc.websocket.factories,
  com.tc.websocket.filter,
  com.tc.websocket.guice,
  com.tc.websocket.jsf,
@@ -35,12 +40,6 @@ Export-Package: com.tc.websocket,
  com.tc.websocket.runners,
  com.tc.websocket.scripts,
  com.tc.websocket.server,
- com.tc.websocket.server.handler,
- com.tc.websocket.server.pipeline,
- com.tc.websocket.valueobjects,
- com.tc.websocket.valueobjects.structures
+ com.tc.websocket.valueobjects
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: com.tc.websocket.Activator
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-Name: xockets.io
-Import-Package: org.slf4j.impl

@@ -3,11 +3,11 @@ Bundle-ManifestVersion: 2
 Bundle-Name: apache-commons
 Bundle-SymbolicName: org.apache.commons
 Bundle-Version: 2.1.0
-Bundle-ClassPath: commons-lang3-3.1.jar,
- commons-codec-1.10.jar,
- commons-fileupload-1.3.3.jar,
- commons-io-2.5.jar,
- commons-net-3.6.jar
+Bundle-ClassPath: commons-io-2.1.jar,
+ commons-codec-1.6.jar,
+ commons-net-3.1.jar,
+ commons-lang3-3.1.jar,
+ commons-fileupload-1.3.1.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.apache.commons.codec,
  org.apache.commons.codec.binary,

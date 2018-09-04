@@ -61,8 +61,6 @@ public class BroadcastQueueProcessor extends AbstractQueueProcessor implements R
 		
 		//exit if nobody on.
 		if(server.getWebSocketCount() == 0) return;
-		
-		int cntr = 0;
 
 		Session session = super.openSession();
 		try {
@@ -82,17 +80,10 @@ public class BroadcastQueueProcessor extends AbstractQueueProcessor implements R
 					temp = view.getNextDocument(doc);
 					doc.recycle();
 					doc = temp;
-					cntr++;
-					
-					//only process 1000 messages per run.
-					if(cntr >=Const.MAX_DOCS_TO_PROCESS){
-						break;
-					}
 				}
 				
+				
 				view.setAutoUpdate(true);
-				view.recycle();
-				db.recycle();
 			}
 		} catch (NotesException e) {
 			LOG.log(Level.SEVERE,null,e);

@@ -104,8 +104,6 @@ public class Const {
 	/** The Constant VIEW_CLUSTERS. */
 	public static final String VIEW_CLUSTERS="($Clusters)";
 	
-	/** only processes N number of docs in the broadcast and regular queues */
-	public static final int MAX_DOCS_TO_PROCESS=2000;
 
 	/** The Constant WEBSOCKET_MAX_MSG_SIZE. */
 	//default values if not present in notes.ini
@@ -192,10 +190,7 @@ public class Const {
 	public static final long PING_INTERVAL_MINUTES=1;
 	
 	/** The Constant USER_CLEANUP_INTERVAL. */
-	public static final int USER_CLEANUP_INTERVAL=10;
-	
-	//every five minutes.
-	public static final int URI_CLEANUP_INTERVAL=120;
+	public static final int USER_CLEANUP_INTERVAL=30;
 	
 	
 	

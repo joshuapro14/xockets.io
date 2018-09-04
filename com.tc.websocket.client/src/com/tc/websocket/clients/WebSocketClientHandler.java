@@ -75,26 +75,26 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
 	}
 
 	
-	@Override
+	
 	public void handlerAdded(ChannelHandlerContext ctx) {
 		handshakeFuture = ctx.newPromise();
 	}
 
 	
-	@Override
+	
 	public void channelActive(ChannelHandlerContext ctx) {
 		handshaker.handshake(ctx.channel());
 	}
 
 	
-	@Override
+	
 	public void channelInactive(ChannelHandlerContext ctx) {
 		this.client.onClose();
 	}
 
 
 	
-	@Override
+	
 	public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
 
 		Channel ch = ctx.channel();
@@ -131,7 +131,7 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
 	}
 
 	
-	@Override
+	
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
 		client.onError(cause);;
 		if (!handshakeFuture.isDone()) {

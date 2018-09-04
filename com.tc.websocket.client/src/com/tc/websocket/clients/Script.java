@@ -52,19 +52,19 @@ public class Script {
 	}
 	
 	
-	@Override
+	
 	public String toString(){
 		return this.getEvent() + "." + this.getSource();
 	}
 	
-	@Override
+	
 	public boolean equals(Object o){
 		if (o == null) return false;
 		return this.toString().equals(o.toString());
 	}
 	
 	
-	@Override
+	
 	public int hashCode(){
 		return this.toString().hashCode();
 	}

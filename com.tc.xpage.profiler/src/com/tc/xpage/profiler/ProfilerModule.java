@@ -22,7 +22,7 @@ import com.google.inject.matcher.Matchers;
 
 public class ProfilerModule extends AbstractModule {
 
-	@Override
+	
 	protected void configure() {
         ProfileInterceptor profiler = new ProfileInterceptor();
         this.bindInterceptor(Matchers.any(), Matchers.annotatedWith(Profiled.class),profiler);

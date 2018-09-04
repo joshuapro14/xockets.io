@@ -1,5 +1,5 @@
 /*
- * ï¿½ Copyright Tek Counsel LLC 2016
+ * © Copyright Tek Counsel LLC 2016
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -291,6 +291,8 @@ public class ApplyStatus extends NotesOperation {
 	public String getStatus() {
 		return this.user.getStatus();
 	}
+
+
 
 
 }

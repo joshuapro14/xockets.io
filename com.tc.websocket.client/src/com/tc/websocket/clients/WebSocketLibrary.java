@@ -21,18 +21,18 @@ import com.ibm.xsp.library.AbstractXspLibrary;
 
 public class WebSocketLibrary extends AbstractXspLibrary {
 
-	@Override
+	
 	public String getLibraryId() {
 		return "com.tc.websocket.client.library";
 	}
 
-	@Override
+	
 	public String getPluginId() {
 		return "com.tc.websocket.client";
 	}
 
 	
-	@Override
+	
 	public String[] getFacesConfigFiles() {
 		return new String[]{
 				"META-INF/socket-faces-config.xml",

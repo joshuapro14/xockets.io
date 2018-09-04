@@ -94,7 +94,7 @@ public class MessagingLoadTest{
 
 		try{
 			NettyClientFactory factory = new NettyClientFactory();
-			this.clients.addAll(factory.buildClients(TestConfig.getInstance().getMaxPayload(), false));
+			this.clients.addAll(factory.buildClients(TestConfig.getInstance().getMaxPayload()));
 		}catch(Exception e){
 			e.printStackTrace();
 		}

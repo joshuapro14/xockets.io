@@ -36,18 +36,18 @@ public class NettyTestClient extends AbstractClient implements Runnable{
 
 	}
 
-	@Override
+	
 	public void onOpen(WebSocketClientHandshaker handShaker) {
 		// TODO Auto-generated method stub
 		
 	}
 	
-	@Override
+	
 	public void onError(Throwable cause) {
 		cause.printStackTrace();
 	}
 
-	@Override
+	
 	public synchronized void onMessage(String message) {
 		
 		int cntr = counter.incrementAndGet();
@@ -181,7 +181,7 @@ public class NettyTestClient extends AbstractClient implements Runnable{
 		printTotalMsgs();
 	}
 
-	@Override
+	
 	public void run() {
 		// TODO Auto-generated method stub
 		

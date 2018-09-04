@@ -26,7 +26,7 @@ import com.tc.utils.StopWatch;
 public class StopwatchInterceptor implements MethodInterceptor {
 
 
-	@Override
+	
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		StopWatch watch = new StopWatch();
 		Object value = null;

@@ -1,22 +1,19 @@
 /*
  * © Copyright Tek Counsel LLC 2016
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); 
- * you may not use this file except in compliance with the License. 
- * You may obtain a copy of the License at:
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at:
  * 
- * http://www.apache.org/licenses/LICENSE-2.0 
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an "AS IS" BASIS, 
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
- * implied. See the License for the specific language governing 
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
-
-
 package com.tc.websocket.server;
-
 
 import java.util.Collection;
 
@@ -28,354 +25,381 @@ import com.tc.websocket.valueobjects.structures.UriUserMap;
 
 import io.netty.handler.codec.http.FullHttpRequest;
 
-
 // TODO: Auto-generated Javadoc
 /**
  * The Interface IDominoWebSocketServer.
  */
 public interface IDominoWebSocketServer extends Runnable {
 
-	/**
-	 * Sets the filter.
-	 *
-	 * @param filter the new filter
-	 */
-	public abstract void setFilter(IWebsocketFilter filter);
-	
-	/**
-	 * Gets the filter.
-	 *
-	 * @return the filter
-	 */
-	public abstract IWebsocketFilter getFilter();
+  /**
+   * Sets the filter.
+   * 
+   * @param filter
+   *          the new filter
+   */
+  public abstract void setFilter(IWebsocketFilter filter);
 
-	/**
-	 * Adds the user.
-	 *
-	 * @param user the user
-	 */
-	public abstract void addUser(IUser user);
+  /**
+   * Gets the filter.
+   * 
+   * @return the filter
+   */
+  public abstract IWebsocketFilter getFilter();
 
-	/**
-	 * Removes the user.
-	 *
-	 * @param key the key
-	 */
-	public abstract void removeUser(String key);
-	
-	/**
-	 * Removes the user.
-	 *
-	 * @param user the user
-	 */
-	public abstract void removeUser(IUser user);
+  /**
+   * Adds the user.
+   * 
+   * @param user
+   *          the user
+   */
+  public abstract void addUser(IUser user);
 
-	/**
-	 * Gets the users.
-	 *
-	 * @return the users
-	 */
-	public abstract Collection<IUser> getUsers();
-	
-	
-	public abstract Collection<IUser> getAllUsers();
-	
-	/**
-	 * Gets the users on this server.
-	 *
-	 * @return the users on this server
-	 */
-	public abstract Collection<IUser> getUsersOnThisServer();
-	
-	/**
-	 * Gets the users by uri.
-	 *
-	 * @param uri the uri
-	 * @return the users by uri
-	 */
-	public Collection<IUser> getUsersByUri(String uri);
+  /**
+   * Removes the user.
+   * 
+   * @param key
+   *          the key
+   */
+  public abstract void removeUser(String key);
 
-	/**
-	 * On open.
-	 *
-	 * @param channel the channel
-	 * @param handshake the handshake
-	 */
-	public abstract void onOpen(ContextWrapper channel, FullHttpRequest handshake);
+  /**
+   * Removes the user.
+   * 
+   * @param user
+   *          the user
+   */
+  public abstract void removeUser(IUser user);
 
-	/**
-	 * On close.
-	 *
-	 * @param conn the conn
-	 */
-	public abstract void onClose(ContextWrapper conn);
-	
-	/**
-	 * Close with delay.
-	 *
-	 * @param conn the conn
-	 * @param delay the delay
-	 */
-	public abstract void closeWithDelay(ContextWrapper conn, int delay);
+  /**
+   * Gets the users.
+   * 
+   * @return the users
+   */
+  public abstract Collection<IUser> getUsers();
 
-	/**
-	 * On message.
-	 * Back-end send operation
-	 *
-	 * @param to the to
-	 * @param json the json
-	 * @return true, if successful
-	 */
-	public abstract boolean onMessage(String to, String json);
-	
-	
-	
-	/**
-	 * On message.
-	 * Back-end send operation
-	 * @param msg the msg
-	 * @return true, if successful
-	 * 
-	 * 
-	 */
-	public abstract boolean onMessage(SocketMessage msg);
-	
-	
-	/**
-	 * On message.
-	 * Front-end send operation used by websocket clients.
-	 *
-	 * @param conn the conn
-	 * @param message the message
-	 */
-	public abstract void onMessage(ContextWrapper conn, String message);
+  public abstract Collection<IUser> getUsersBySessionId();
 
-	/**
-	 * On error.
-	 *
-	 * @param conn the conn
-	 * @param ex the ex
-	 */
-	public abstract void onError(ContextWrapper conn, Exception ex);
+  /**
+   * Gets the users on this server.
+   * 
+   * @return the users on this server
+   */
+  public abstract Collection<IUser> getUsersOnThisServer();
 
-	/**
-	 * Resolve user.
-	 *
-	 * @param conn the conn
-	 * @return the i user
-	 */
-	public abstract IUser resolveUser(ContextWrapper conn);
-	
-	/**
-	 * Resolve user.
-	 *
-	 * @param key the key
-	 * @return the i user
-	 */
-	public abstract IUser resolveUser(String key);//key could be sessionId, or userId.
-	
-	/**
-	 * Contains user.
-	 *
-	 * @param key the key
-	 * @return true, if successful
-	 */
-	public boolean containsUser(String key);
-	
-	/**
-	 * Ping users.
-	 */
-	public abstract void pingUsers();
+  /**
+   * Gets the users by uri.
+   * 
+   * @param uri
+   *          the uri
+   * @return the users by uri
+   */
+  public Collection<IUser> getUsersByUri(String uri);
 
-	/**
-	 * Broadcast.
-	 *
-	 * @param msg the msg
-	 */
-	public abstract void broadcast(SocketMessage msg);
-	
-	/**
-	 * Queue message.
-	 *
-	 * @param msg the msg
-	 */
-	public abstract void queueMessage(SocketMessage msg);
-	
-	/**
-	 * Start.
-	 */
-	public abstract void start();
-	
-	/**
-	 * Stop.
-	 */
-	public abstract void stop();
-	
-	/**
-	 * Checks if is valid size.
-	 *
-	 * @param data the data
-	 * @return true, if is valid size
-	 */
-	public boolean isValidSize(String data);
-	
-	/**
-	 * Checks if is on.
-	 *
-	 * @return true, if is on
-	 */
-	public boolean isOn();
-	
-	/**
-	 * Sets the on.
-	 *
-	 * @param on the new on
-	 */
-	public void setOn(boolean on);
-	
-	/**
-	 * Removes the all users.
-	 */
-	public void removeAllUsers();
-	
-	/**
-	 * Gets the web socket count.
-	 *
-	 * @return the web socket count
-	 */
-	public int getWebSocketCount();
-	
-	/**
-	 * Gets the web socket and observer count.
-	 *
-	 * @return the web socket and observer count
-	 */
-	public int getWebSocketAndObserverCount();
-	
+  /**
+   * On open.
+   * 
+   * @param channel
+   *          the channel
+   * @param handshake
+   *          the handshake
+   */
+  public abstract void onOpen(ContextWrapper channel, FullHttpRequest handshake);
 
-	
-	/**
-	 * Gets the all scripts.
-	 *
-	 * @return the all scripts
-	 */
-	public Collection<Script> getAllScripts();
-	
-	/**
-	 * Reload scripts.
-	 */
-	public void reloadScripts();
-	
-	
-	/**
-	 * Contains observer.
-	 *
-	 * @param script the script
-	 * @return true, if successful
-	 */
-	//for all events
-	public boolean containsObserver(Script script);
-	
-	/**
-	 * Adds the event observer.
-	 *
-	 * @param script the script
-	 */
-	public void addEventObserver(Script script);
-	
-	/**
-	 * Removes the event observer.
-	 *
-	 * @param script the script
-	 */
-	public void removeEventObserver(Script script);
-	
-	/**
-	 * Notify event observers.
-	 *
-	 * @param event the event
-	 * @param args the args
-	 */
-	public void notifyEventObservers(String event, Object ...args);
-	
-	
-	/**
-	 * Notify event observers sync.
-	 *
-	 * @param event the event
-	 * @param args the args
-	 */
-	public void notifyEventObserversSync(String event, Object ...args);
-	
-	
-	/**
-	 * Gets the event observers.
-	 *
-	 * @return the event observers
-	 */
-	public Collection<Script> getEventObservers();
-	
-	
-	
-	/**
-	 * Gets the uri listeners.
-	 *
-	 * @return the uri listeners
-	 */
-	//for uri onMessage events.
-	public Collection<Script> getUriListeners();
-	
-	/**
-	 * Adds the uri listener.
-	 *
-	 * @param script the script
-	 */
-	public void addUriListener(Script script);
-	
-	/**
-	 * Find uri listener.
-	 *
-	 * @param source the source
-	 * @return the script
-	 */
-	public Script findUriListener(String source);
-	
-	/**
-	 * Removes the uri listener.
-	 *
-	 * @param script the script
-	 */
-	public void removeUriListener(Script script);
-	
-	
-	/**
-	 * Adds the intervaled.
-	 *
-	 * @param script the script
-	 */
-	//for scheduled onInterval scripts
-	public void addIntervaled(Script script);
-	
-	/**
-	 * Removes the intervaled.
-	 *
-	 * @param script the script
-	 */
-	public void removeIntervaled(Script script);
-	
-	/**
-	 * Gets the intervaled.
-	 *
-	 * @return the intervaled
-	 */
-	public Collection<Script> getIntervaled(); 
+  /**
+   * On close.
+   * 
+   * @param conn
+   *          the conn
+   */
+  public abstract void onClose(ContextWrapper conn);
 
-	
-	/**
-	 * Gets the uri user map.
-	 *
-	 * @return the uri user map
-	 */
-	public UriUserMap getUriUserMap();
-	
+  /**
+   * Close with delay.
+   * 
+   * @param conn
+   *          the conn
+   * @param delay
+   *          the delay
+   */
+  public abstract void closeWithDelay(ContextWrapper conn, int delay);
+
+  /**
+   * On message. Back-end send operation
+   * 
+   * @param to
+   *          the to
+   * @param json
+   *          the json
+   * @return true, if successful
+   */
+  public abstract boolean onMessage(String to, String json);
+
+  /**
+   * On message. Back-end send operation
+   * 
+   * @param msg
+   *          the msg
+   * @return true, if successful
+   * 
+   * 
+   */
+  public abstract boolean onMessage(SocketMessage msg);
+
+  /**
+   * On message. Front-end send operation used by websocket clients.
+   * 
+   * @param conn
+   *          the conn
+   * @param message
+   *          the message
+   */
+  public abstract void onMessage(ContextWrapper conn, String message);
+
+  /**
+   * On error.
+   * 
+   * @param conn
+   *          the conn
+   * @param ex
+   *          the ex
+   */
+  public abstract void onError(ContextWrapper conn, Exception ex);
+
+  /**
+   * Resolve user.
+   * 
+   * @param conn
+   *          the conn
+   * @return the i user
+   */
+  public abstract IUser resolveUser(ContextWrapper conn);
+
+  /**
+   * Resolve user.
+   * 
+   * @param key
+   *          the key
+   * @return the i user
+   */
+  public abstract IUser resolveUser(String key);// key could be sessionId, or
+                                                // userId.
+
+  /**
+   * Contains user.
+   * 
+   * @param key
+   *          the key
+   * @return true, if successful
+   */
+  public boolean containsUser(String key);
+
+  /**
+   * Ping users.
+   */
+  public abstract void pingUsers();
+
+  /**
+   * Broadcast.
+   * 
+   * @param msg
+   *          the msg
+   */
+  public abstract void broadcast(SocketMessage msg);
+
+  /**
+   * Queue message.
+   * 
+   * @param msg
+   *          the msg
+   */
+  public abstract void queueMessage(SocketMessage msg);
+
+  /**
+   * Start.
+   */
+  public abstract void start();
+
+  /**
+   * Stop.
+   */
+  public abstract void stop();
+
+  /**
+   * Checks if is valid size.
+   * 
+   * @param data
+   *          the data
+   * @return true, if is valid size
+   */
+  public boolean isValidSize(String data);
+
+  /**
+   * Checks if is on.
+   * 
+   * @return true, if is on
+   */
+  public boolean isOn();
+
+  /**
+   * Sets the on.
+   * 
+   * @param on
+   *          the new on
+   */
+  public void setOn(boolean on);
+
+  /**
+   * Removes the all users.
+   */
+  public void removeAllUsers();
+
+  /**
+   * Gets the web socket count.
+   * 
+   * @return the web socket count
+   */
+  public int getWebSocketCount();
+
+  /**
+   * Gets the web socket and observer count.
+   * 
+   * @return the web socket and observer count
+   */
+  public int getWebSocketAndObserverCount();
+
+  /**
+   * Decrement count.
+   * 
+   * @return the int
+   */
+  public int decrementCount();
+
+  /**
+   * Gets the all scripts.
+   * 
+   * @return the all scripts
+   */
+  public Collection<Script> getAllScripts();
+
+  /**
+   * Reload scripts.
+   */
+  public void reloadScripts();
+
+  /**
+   * Contains observer.
+   * 
+   * @param script
+   *          the script
+   * @return true, if successful
+   */
+  // for all events
+  public boolean containsObserver(Script script);
+
+  /**
+   * Adds the event observer.
+   * 
+   * @param script
+   *          the script
+   */
+  public void addEventObserver(Script script);
+
+  /**
+   * Removes the event observer.
+   * 
+   * @param script
+   *          the script
+   */
+  public void removeEventObserver(Script script);
+
+  /**
+   * Notify event observers.
+   * 
+   * @param event
+   *          the event
+   * @param args
+   *          the args
+   */
+  public void notifyEventObservers(String event, Object... args);
+
+  /**
+   * Notify event observers sync.
+   * 
+   * @param event
+   *          the event
+   * @param args
+   *          the args
+   */
+  public void notifyEventObserversSync(String event, Object... args);
+
+  /**
+   * Gets the event observers.
+   * 
+   * @return the event observers
+   */
+  public Collection<Script> getEventObservers();
+
+  /**
+   * Gets the uri listeners.
+   * 
+   * @return the uri listeners
+   */
+  // for uri onMessage events.
+  public Collection<Script> getUriListeners();
+
+  /**
+   * Adds the uri listener.
+   * 
+   * @param script
+   *          the script
+   */
+  public void addUriListener(Script script);
+
+  /**
+   * Find uri listener.
+   * 
+   * @param source
+   *          the source
+   * @return the script
+   */
+  public Script findUriListener(String source);
+
+  /**
+   * Removes the uri listener.
+   * 
+   * @param script
+   *          the script
+   */
+  public void removeUriListener(Script script);
+
+  /**
+   * Adds the intervaled.
+   * 
+   * @param script
+   *          the script
+   */
+  // for scheduled onInterval scripts
+  public void addIntervaled(Script script);
+
+  /**
+   * Removes the intervaled.
+   * 
+   * @param script
+   *          the script
+   */
+  public void removeIntervaled(Script script);
+
+  /**
+   * Gets the intervaled.
+   * 
+   * @return the intervaled
+   */
+  public Collection<Script> getIntervaled();
+
+  /**
+   * Gets the uri user map.
+   * 
+   * @return the uri user map
+   */
+  public UriUserMap getUriUserMap();
 }

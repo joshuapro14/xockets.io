@@ -36,7 +36,7 @@ public class TestScriptingRuntimes {
 		cfg.overrideProperty("print.data", "true");//we want to print data.
 		
 		
-		this.clients.addAll(factory.buildClients(TestConfig.getInstance().getMaxPayload(), false));
+		this.clients.addAll(factory.buildClients(TestConfig.getInstance().getMaxPayload()));
 		
 		
 		

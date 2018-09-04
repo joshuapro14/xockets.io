@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.tc.utils.StringCache;
@@ -47,6 +46,7 @@ public class UriUserMap {
 				direct.add(user);
 			}
 		}
+
 	}
 	
 	/**
@@ -110,25 +110,6 @@ public class UriUserMap {
 	 */
 	public synchronized void clear(){
 		map.clear();
-	}
-	
-	public synchronized void cleanup(){
-		for(String key : map.keySet()){
-			Collection<IUser> col = map.get(key);
-			Set<IUser> users = new HashSet<IUser>();
-			for(IUser user : col){
-				if(user.count() > 0){
-					users.add(user);
-				}
-			}
-			
-			//add cleaned up collection
-			if(users.isEmpty() == false){
-				map.put(key, users);
-			}else{
-				map.remove(key);
-			}
-		}
 	}
 	
 

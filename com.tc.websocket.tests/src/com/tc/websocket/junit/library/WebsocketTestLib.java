@@ -19,12 +19,12 @@ import com.ibm.xsp.library.AbstractXspLibrary;
 
 public class WebsocketTestLib extends AbstractXspLibrary {
 
-	@Override
+	
 	public String getLibraryId() {
 		return "com.tc.websocket.tests.library";
 	}
 
-	@Override
+	
 	public String getPluginId() {
 		return "com.tc.websocket.tests.xsp";
 	}

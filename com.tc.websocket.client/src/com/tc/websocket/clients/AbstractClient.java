@@ -59,7 +59,7 @@ public abstract class AbstractClient implements IWebSocketClient{
 	}
 
 
-	@Override
+	
 	public void connect() throws InterruptedException{
 		// Connect with V13 (RFC 6455 aka HyBi-17). You can change it to V08 or V00.
 		// If you change it to V00, ping is not supported and remember to change
@@ -77,7 +77,7 @@ public abstract class AbstractClient implements IWebSocketClient{
 		.channel(NioSocketChannel.class)
 		.handler(new ChannelInitializer<SocketChannel>() {
 
-			@Override
+			
 			protected void initChannel(SocketChannel ch) {
 				ChannelPipeline p = ch.pipeline();
 				SSLEngine sslEngine=null;
@@ -88,7 +88,7 @@ public abstract class AbstractClient implements IWebSocketClient{
 						sslEngine = sslContext.newEngine(ch.alloc(),uri.getHost(),uri.getPort());
 					}
 					
-					//sslEngine.setEnabledProtocols(Const.TLS_PROTOCOLS);
+					sslEngine.setEnabledProtocols(Const.TLS_PROTOCOLS);
 					sslEngine.setUseClientMode(true);
 					p.addLast(new SslHandler(sslEngine));
 				}
@@ -116,22 +116,22 @@ public abstract class AbstractClient implements IWebSocketClient{
 
 
 
-	@Override
+	
 	public void onOpen(WebSocketClientHandshaker handShaker) {
 		logger.log(Level.INFO, "onOpen");
 	}
 
-	@Override
+	
 	public void onError(Throwable cause) {
 		logger.log(Level.SEVERE, null, cause);
 	}
 
-	@Override
+	
 	public void onClose() {
 		logger.log(Level.FINE, "onClose");
 	}
 
-	@Override
+	
 	public void disconnect() {
 		ch.writeAndFlush(new CloseWebSocketFrame());
         try {
@@ -144,13 +144,13 @@ public abstract class AbstractClient implements IWebSocketClient{
 	
 	}
 
-	@Override
+	
 	public boolean isOpen() {
 		return this.ch.isOpen();
 	}
 
 
-	@Override
+	
 	public void send(String text) {
 		ch.writeAndFlush(new TextWebSocketFrame(text));
 	}

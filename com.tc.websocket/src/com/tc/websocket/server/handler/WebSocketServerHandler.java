@@ -19,7 +19,6 @@ package com.tc.websocket.server.handler;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -193,7 +192,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
 	
 	public void writeToTempFile(String fragment, boolean isFinal) throws IOException{
 		File file = File.createTempFile((isFinal ? "final" : "frag"),".json");
-		FileUtils.write(file,fragment, Charset.defaultCharset());
+		FileUtils.write(file,fragment);
 	}
 
 
